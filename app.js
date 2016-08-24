@@ -7,7 +7,15 @@ app.get('/', (request, response) => {
 });
 
 app.route('/blocks').get((req, res) => {
-  res.json(['Fixed', 'Movable', 'Rotating']);
+  let blocks = ['Fixed', 'Movable', 'Rotating'];
+  let response;
+
+  if(req.query.limit > 0) {
+    response = blocks.slice(0, req.query.limit);
+  } else {
+    response = blocks;
+  }
+  res.json(response);
 });
 
 export default app;
