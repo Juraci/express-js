@@ -1,5 +1,5 @@
-describe('GET /blocks', () => {
-  it('returns a list of blocks', (done) => {
+describe('GET /blocks', function() {
+  it('returns a list of blocks', function(done) {
     request
       .get('/blocks')
       .end((err, res) => {
