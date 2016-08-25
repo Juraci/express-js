@@ -8,13 +8,16 @@ const blocks = {
   'Rotating': 'Moving in a circle around its center'
 };
 
+app.param('name', (req, res, next) => {
+  let name = req.params.name;
+  req.blockName = name[0].toUpperCase() + name.slice(1).toLowerCase();
+
+  next();
+});
+
 app.route('/blocks').get((req, res) => {
   let response;
-  let ablocks = [];
-
-  for(let key in blocks) {
-    ablocks.push(key);
-  }
+  let ablocks = Object.keys(blocks);
 
   if(req.query.limit > 0) {
     response = ablocks.slice(0, req.query.limit);
@@ -25,7 +28,7 @@ app.route('/blocks').get((req, res) => {
 });
 
 app.route('/blocks/:name').get((req, res) => {
-  let description = blocks[req.params.name];
+  let description = blocks[req.blockName];
 
   if(!description) {
     res.status(404).json('Block not found');

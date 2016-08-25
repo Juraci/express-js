@@ -31,7 +31,7 @@ describe('Blocks resource', function() {
   describe('GET /blocks/:name', function() {
     it('returns the block value', function(done) {
       request
-        .get('/blocks/Fixed')
+        .get('/blocks/fixed')
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.equal('Fastened securely in position');
