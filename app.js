@@ -1,8 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const app = express();
+app.use(bodyParser.json());
 
-const blocks = {
+
+let blocks = {
   'Fixed': 'Fastened securely in position',
   'Movable': 'Capable of being moved',
   'Rotating': 'Moving in a circle around its center'
@@ -15,17 +18,24 @@ app.param('name', (req, res, next) => {
   next();
 });
 
-app.route('/blocks').get((req, res) => {
-  let response;
-  let ablocks = Object.keys(blocks);
+app.route('/blocks')
+  .get((req, res) => {
+    let response;
+    let ablocks = Object.keys(blocks);
 
-  if(req.query.limit > 0) {
-    response = ablocks.slice(0, req.query.limit);
-  } else {
-    response = ablocks;
-  }
-  res.json(response);
-});
+    if(req.query.limit > 0) {
+      response = ablocks.slice(0, req.query.limit);
+    } else {
+      response = ablocks;
+    }
+    res.json(response);
+  })
+  .post((req, res) => {
+    let newBlock = req.body;
+    blocks[newBlock.name] = newBlock.description;
+
+    res.status(201).json(newBlock.name);
+  });
 
 app.route('/blocks/:name').get((req, res) => {
   let description = blocks[req.blockName];

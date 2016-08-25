@@ -51,4 +51,16 @@ describe('Blocks resource', function() {
       });
     });
   });
+
+  describe('POST /blocks', function() {
+    it('creates a new block', function(done) {
+      request
+        .post('/blocks')
+        .send({ name: 'Flying', description: 'Moves into to the air' })
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          done(err);
+        });
+    });
+  });
 });
