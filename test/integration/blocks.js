@@ -63,4 +63,31 @@ describe('Blocks resource', function() {
         });
     });
   });
+
+  describe('DELETE /blocks/:name', function() {
+    it('deletes the given block', function(done) {
+      request
+        .del('/blocks/fixed')
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          request
+            .get('/blocks/fixed')
+            .end((err, res) => {
+              expect(res.status).to.equal(404);
+              done(err);
+            });
+        });
+    });
+
+    context('when the block name does not exist', function() {
+      it('returns 404', function(done) {
+        request
+          .del('/blocks/banana')
+          .end((err, res) => {
+            expect(res.status).to.equal(404);
+            done(err);
+          });
+      });
+    });
+  });
 });

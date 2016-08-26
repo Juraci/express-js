@@ -37,14 +37,23 @@ app.route('/blocks')
     res.status(201).json(newBlock.name);
   });
 
-app.route('/blocks/:name').get((req, res) => {
-  let description = blocks[req.blockName];
+app.route('/blocks/:name')
+  .get((req, res) => {
+    let description = blocks[req.blockName];
 
-  if(!description) {
-    res.status(404).json('Block not found');
-  } else {
-    res.json(description);
-  }
-});
+    if(!description) {
+      res.status(404).json('Block not found');
+    } else {
+      res.json(description);
+    }
+  })
+  .delete((req, res) => {
+    if(!blocks[req.blockName]) {
+      res.status(404).json('Block not found');
+    } else {
+      delete blocks[req.blockName];
+      res.sendStatus(200);
+    }
+  });
 
 export default app;
